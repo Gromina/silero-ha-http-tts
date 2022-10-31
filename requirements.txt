@@ -3,3 +3,4 @@ torchaudio
 pysndfx>=0.3.6
 sox
 uvicorn[standard]
+fastapi

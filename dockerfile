@@ -1,4 +1,4 @@
-FROM python:3.9 as silero-ha-http-tts
+FROM python:3.9 as silero-foundation
 
 WORKDIR /usr/app
 
@@ -10,15 +10,22 @@ ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 
 
+FROM silero-foundation as silero-models
+WORKDIR /usr/app
+ADD download_models.py .
+RUN python3 download_models.py
 
 
 
-FROM silero-ha-http-tts
+
+
+FROM silero-models
 WORKDIR /usr/app
 
 ADD ./ ./
 
 EXPOSE 80
+# the second part of requiremets just not to rebuild all
 ADD requirements_last.txt .
 RUN pip3 install -r requirements_last.txt
 

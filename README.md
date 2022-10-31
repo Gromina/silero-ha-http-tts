@@ -6,10 +6,11 @@
 - [x] docker packaging
 - [x] make initial server
 - [x] silero package working
-- [ ] models cached in docker
+- [x] TTS code itself
+- [x] caching of TTS results in local filesystem
+- [x] ML models cached in docker
+- [ ] Normalize text
 - [ ] server implements HA TTS HTTP API https://www.home-assistant.io/integrations/tts/
-- [ ] TTS code itself
-- [ ] caching of TTS results in local filesystem
 - [ ] make docs how to run it all with HA
 
 

@@ -20,13 +20,6 @@ local_file = 'model.pt'
 speaker = 'xenia'  # 'aidar', 'baya', 'kseniya', 'xenia', 'random'
 sample_rate = 48000  # 8000, 24000, 48000
 
-
-# put this in docker image preparation
-if not os.path.isfile(local_file):
-    torch.hub.download_url_to_file('https://models.silero.ai/models/tts/ru/ru_v3.pt',
-                                   local_file)  
-
-
 model = torch.package.PackageImporter(local_file).load_pickle("tts_models", "model")
 model.to(device)
 
@@ -39,14 +32,6 @@ except:
     pass
 
 app.mount("/static", StaticFiles(directory="./static"), name="static")
-
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
 
 
 #curl -x POST -d '{"text":"posdf"}'  -H  "accept: application/json" -H  "Content-Type: application/json" 127.0.0.1:9898/api
