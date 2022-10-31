@@ -4,6 +4,8 @@ from fastapi.staticfiles import StaticFiles
 import os
 import torch
 
+import hashlib
+
 from typing import Any, Dict, AnyStr, List, Union
 
 
@@ -55,8 +57,12 @@ async def tts(request: Request):
     #audio = model.apply_tts(text=example_text, speaker=speaker, sample_rate=sample_rate)
 
 
+    text_to_tts = json["text"]
     # (text=None, ssml_text=None, speaker: str = 'xenia', audio_path: str = '', sample_rate: int = 48000, put_accent=True, put_yo=True)
-    audio_path = "output.wav"
-    res_path = model.save_wav(text=json["text"],speaker=speaker, audio_path="./static/"+audio_path, sample_rate=sample_rate)
+    hash_object = hashlib.sha512(bytes(text_to_tts,'UTF-8'))
+    hex_dig = hash_object.hexdigest()
+
+    audio_path = "%s.wav" % hex_dig
+    res_path = model.save_wav(text=text_to_tts, speaker=speaker, audio_path="./static/"+audio_path, sample_rate=sample_rate)
 
     return {"url": request.url_for("static", path=audio_path)}
