@@ -1,0 +1,5 @@
+torch>=1.10.0
+torchaudio
+pysndfx>=0.3.6
+sox
+uvicorn[standard]
