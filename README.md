@@ -3,9 +3,13 @@
 
 ## todo
 
-* make server implementing HA TTS HTTP API https://www.home-assistant.io/integrations/tts/
-* wrap server, silero and text normalization in docker
-* make docs how to frun it all with HA
+- [x] docker packaging
+- [x] make initial server
+- [ ] silero package and models cached in docker
+- [ ] server implements HA TTS HTTP API https://www.home-assistant.io/integrations/tts/
+- [ ] TTS code itself
+- [ ] caching of TTS results in local filesystem
+- [ ] make docs how to run it all with HA
 
 
 
