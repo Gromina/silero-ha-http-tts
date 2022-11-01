@@ -1,3 +1,4 @@
+#--------- layer 1
 FROM python:3.9 as silero-foundation
 
 WORKDIR /usr/app
@@ -10,15 +11,14 @@ ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 
 
+#--------- layer 2
 FROM silero-foundation as silero-models
 WORKDIR /usr/app
 ADD download_models.py .
 RUN python3 download_models.py
 
 
-
-
-
+#--------- layer 3
 FROM silero-models
 WORKDIR /usr/app
 
@@ -29,5 +29,4 @@ EXPOSE 80
 ADD requirements_last.txt .
 RUN pip3 install -r requirements_last.txt
 
-# CMD [ "python3", "-u", "./server.py" ]
 CMD [ "uvicorn", "server:app", "--host", "0.0.0.0", "--port", "80" ]

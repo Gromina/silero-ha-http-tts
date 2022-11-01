@@ -1,17 +1,15 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Body, Form
 from fastapi.staticfiles import StaticFiles
+from urllib.parse import urlparse, parse_qs
+from fastapi.responses import RedirectResponse
+from fastapi.responses import StreamingResponse
 
+import json
 import os
 import torch
-
 import hashlib
+import pprint
 
-from typing import Any, Dict, AnyStr, List, Union
-
-
-JSONObject = Dict[AnyStr, Any]
-JSONArray = List[Any]
-JSONStructure = Union[JSONArray, JSONObject]
 
 
 device = torch.device('cpu')
@@ -34,20 +32,28 @@ except:
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 
 
-#curl -x POST -d '{"text":"posdf"}'  -H  "accept: application/json" -H  "Content-Type: application/json" 127.0.0.1:9898/api
+pp = pprint.PrettyPrinter(indent=2)
 
-@app.post("/api")
+@app.post("/process")
 async def tts(request: Request):
-    json = await request.json()
-    #audio = model.apply_tts(text=example_text, speaker=speaker, sample_rate=sample_rate)
+    body = await request.body()
+    params = parse_qs(body.decode("utf-8"))
+    params = {k: next(iter(v or []), "") for k, v in params.items()}
 
 
-    text_to_tts = json["text"]
-    # (text=None, ssml_text=None, speaker: str = 'xenia', audio_path: str = '', sample_rate: int = 48000, put_accent=True, put_yo=True)
+    text_to_tts = params["INPUT_TEXT"]
     hash_object = hashlib.sha512(bytes(text_to_tts,'UTF-8'))
     hex_dig = hash_object.hexdigest()
 
     audio_path = "%s.wav" % hex_dig
-    res_path = model.save_wav(text=text_to_tts, speaker=speaker, audio_path="./static/"+audio_path, sample_rate=sample_rate)
+    text_norm = text_to_tts
+    wav_file = "./static/"+audio_path
 
-    return {"url": request.url_for("static", path=audio_path)}
+    # (text=None, ssml_text=None, speaker: str = 'xenia', audio_path: str = '', sample_rate: int = 48000, put_accent=True, put_yo=True)
+    res_path = model.save_wav(text=text_norm, speaker=speaker, audio_path=wav_file, sample_rate=sample_rate)
+
+    def iterfile():  # 
+        with open(wav_file, mode="rb") as file_like:
+            yield from file_like
+
+    return StreamingResponse(iterfile(), media_type="audio/wav")
