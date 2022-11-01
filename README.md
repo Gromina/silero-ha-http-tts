@@ -21,6 +21,14 @@
 
 ## example request for testing
 
+
+## HA config
 ```
-curl -X POST -d '{"text":"жопа с ручкой"}'  -H  "accept: application/json" -H  "Content-Type: application/json" http://localhost:9898/api
+tts:
+  - platform: marytts
+    host: localhost
+    port: 9898
+    codec: WAVE_FILE
+    voice: xenia
+    language: ru
 ```
