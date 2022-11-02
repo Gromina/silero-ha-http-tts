@@ -10,16 +10,15 @@
 - [x] caching of TTS results in local filesystem
 - [x] ML models cached in docker
 - [ ] Normalize text
-- [ ] server implements HA TTS HTTP API https://www.home-assistant.io/integrations/tts/
-- [ ] make docs how to run it all with HA
+- [x] server implements HA TTS API (MaryTTS)
+- [x] make docs how to run it all with HA
+- [ ] respect voice, language parameters
 
 
 
 ## I took some ideas from
 
 * https://github.com/elia-morrison/silero_docker
-
-## example request for testing
 
 
 ## HA config
