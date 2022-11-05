@@ -14,7 +14,11 @@
 - [x] make docs how to run it all with HA
 - [ ] respect voice, language parameters
 
+## Endpoints
 
+POST /process - MaryTTS format endpoint returning wav file. Used when setup as HA TTS service
+
+POST /tts - just get url to generated wav file
 
 ## I took some ideas from
 
@@ -30,4 +34,10 @@ tts:
     codec: WAVE_FILE
     voice: xenia
     language: ru
+```
+
+## curl test
+
+```
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "INPUT_TEXT=Привет" http://127.1:9898/tts
 ```

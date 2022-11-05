@@ -4,3 +4,6 @@ pysndfx>=0.3.6
 sox
 uvicorn[standard]
 fastapi
+python-multipart
+num2words
+natasha

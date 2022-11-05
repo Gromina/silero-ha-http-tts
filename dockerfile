@@ -6,7 +6,7 @@ WORKDIR /usr/app
 RUN pip3 install --upgrade pip
 RUN pip3 install --upgrade setuptools
 RUN apt-get update --fix-missing && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
-RUN apt-get install -y sox
+RUN apt-get install -y sox libsox-fmt-mp3 sox
 ADD requirements.txt .
 RUN pip3 install -r requirements.txt
 
