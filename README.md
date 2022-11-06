@@ -34,13 +34,14 @@
 
 ## How to run
 
-```hash
+```bash
 git clone https://github.com/Gromina/silero-ha-http-tts.git
 cd silero-ha-http-tts.git
 
 make && make run # which is shortcut for 2 following lines
 # docker build -t silero .
 # docker run -p 9898:80 --rm --name tts_silero silero
+```
 
 ## Endpoints
 
